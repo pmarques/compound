@@ -99,7 +99,7 @@ module BarkingIguana
         end
 
         def command_line
-          c = ["env ANSIBLE_RETRY_FILES_ENABLED=no ansible-playbook #{playbook_paths}"]
+          c = ["env ANSIBLE_RETRY_FILES_ENABLED=no ANSIBLE_FORCE_COLOR=true ansible-playbook #{playbook_paths}"]
           inventory_paths.each do |i|
             c << "-i #{i}"
           end
