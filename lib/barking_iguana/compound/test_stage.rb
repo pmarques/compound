@@ -3,11 +3,12 @@ module BarkingIguana
     class TestStage
       extend Forwardable
 
-      attr_accessor :test, :directory
+      attr_accessor :test, :directory, :run_test_args
 
-      def initialize test, directory
+      def initialize test, directory, run_test_args
         self.test = test
         self.directory = directory
+        self.run_test_args = run_test_args
       end
 
       def actions
@@ -118,6 +119,7 @@ module BarkingIguana
           p.verbosity(ansible_verbosity)
           p.diff
           p.extra_vars extra_vars_path if extra_vars?
+          p.command_test_args run_test_args if run_test_args
         }
       end
 

@@ -9,12 +9,16 @@ module BarkingIguana
       attr_accessor :directory
       private :directory=
 
+      attr_accessor :extra_args
+      private :extra_args=
+
       include BarkingIguana::Logging::Helper
       include BarkingIguana::Benchmark
 
-      def initialize suite, directory
+      def initialize suite, directory, extra_args
         self.suite = suite
         self.directory = directory
+        self.extra_args = extra_args
       end
 
       def name
@@ -22,7 +26,7 @@ module BarkingIguana
       end
 
       def stages
-        Dir[directory + '/*'].select { |d| File.directory? d }.map { |s| TestStage.new self, File.basename(s) }
+        Dir[directory + '/*'].select { |d| File.directory? d }.map { |s| TestStage.new self, File.basename(s), extra_args }
       end
 
       def run

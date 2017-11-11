@@ -44,9 +44,19 @@ module BarkingIguana
       attr_accessor :directory
       private :directory=
 
+      attr_accessor :extra_args
+      private :extra_args=
+
+      # def initialize(directory = nil, control_directory: nil, extra_args: nil)
       def initialize(directory = nil, control_directory: nil)
         self.control_directory = control_directory || guess_directory
         self.directory = directory || File.expand_path("test/compound", control_directory)
+
+        pos = ARGV.index('--')
+        unless pos.nil?
+          pos = pos + 1
+          self.extra_args = ARGV[pos..-1]
+        end
       end
 
       def guess_directory
@@ -58,7 +68,7 @@ module BarkingIguana
       end
 
       def tests
-        test_directories.map { |d| Test.new self, d }
+        test_directories.map { |d| Test.new self, d, extra_args }
       end
 
       def name
